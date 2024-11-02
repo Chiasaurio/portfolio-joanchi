@@ -12,13 +12,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    AppSelectedStream.init();
+    AppSelectedController.init();
+
     super.initState();
   }
 
   @override
   void dispose() {
-    AppSelectedStream.dispose();
+    AppSelectedController.dispose();
     super.dispose();
   }
 
@@ -27,123 +28,76 @@ class _MyHomePageState extends State<MyHomePage> {
     _paddingSides = MediaQuery.of(context).size.width * 0.15;
 
     return DecoratedBox(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.2), BlendMode.dstATop),
-          image: Image.asset(
-            'assets/images/fotoparamo.jpg',
-          ).image,
-          fit: BoxFit.fitWidth,
-        ),
-        gradient: LinearGradient(
-          colors: [
-            getColor.primary,
-            getColor.secondary,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
+      decoration: _backgroundDecoration(),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: _paddingSides, vertical: 10),
-          child: CustomScrollView(
-            slivers: [
-              SliverList.list(
-                children: [
-                  _appSelectedStream(),
-                ],
-              ),
-            ],
+          padding: EdgeInsets.symmetric(
+            horizontal: _paddingSides,
+            vertical: 10,
           ),
+          child: _view(),
         ),
       ),
     );
   }
 
-  StreamBuilder<AppModel> _appSelectedStream() {
-    return StreamBuilder<AppModel>(
-        stream: AppSelectedStream.appSelectedStream,
-        builder: (context, snapshot) {
-          return Column(
-            children: [
-              _appsRow(),
-              const SizedBox(height: 20),
-              _appContent(snapshot.data),
-            ],
-          );
-        });
-  }
-
-  _selectApp(AppModel app) async {
-    AppSelectedStream.update(app);
-  }
-
-  Widget _appsRow() {
-    return Wrap(
-      spacing: 8.0,
-      runSpacing: 5.0,
-      children: [
-        ...getApps().map(
-          (app) => CircleAvatarAppMolecule(
-            id: 2,
-            asset: app.asset,
-            onTap: () => _selectApp(app),
-          ),
-        )
+  CustomScrollView _view() {
+    return CustomScrollView(
+      slivers: [
+        SliverList.list(
+          children: [
+            _appSelectedStream(),
+          ],
+        ),
       ],
     );
   }
 
-  _appContent(AppModel? app) {
-    return AnimatedOpacity(
-      opacity: app == null ? 0.0 : 1.0,
-      duration: const Duration(milliseconds: 500),
-      child: app == null
-          ? const SizedBox()
-          : Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: getColor.background,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        app.nombre,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        app.descripcion,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Center(
-                  child: VideoPlayerAtom(
-                    width: 500,
-                    asset: app.videoAsset,
-                  ),
-                ),
-              ],
-            ),
+  BoxDecoration _backgroundDecoration() {
+    return BoxDecoration(
+      image: DecorationImage(
+        colorFilter:
+            ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+        image: Image.asset(
+          'assets/images/fotoparamo.jpg',
+        ).image,
+        fit: BoxFit.fitWidth,
+      ),
+      gradient: LinearGradient(
+        colors: [
+          getColor.primary,
+          getColor.secondary,
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
     );
+  }
+
+  Widget _appSelectedStream() {
+    return ListenableBuilder(
+      listenable: AppSelectedController.notifier!,
+      builder: (_, child) {
+        return Column(
+          children: [
+            const AppsRowWidget(),
+            const SizedBox(height: 20),
+            _appInfo(AppSelectedController.notifier!.appSelected),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _appInfo(AppModel? data) {
+    return AnimatedOpacity(
+        opacity: data == null ? 0.0 : 1.0,
+        duration: const Duration(milliseconds: 500),
+        child: data == null
+            ? null
+            : AppInformationWidget(
+                app: data,
+              ));
   }
 }

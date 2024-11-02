@@ -5,6 +5,18 @@ class AppsRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 5.0,
+      children: [
+        ...getApps().map(
+          (app) => CircleAvatarAppMolecule(
+            id: 2,
+            asset: app.asset,
+            onTap: () => AppSelectedController.selectApp(app),
+          ),
+        )
+      ],
+    );
   }
 }

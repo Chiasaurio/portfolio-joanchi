@@ -1,6 +1,6 @@
 part of '../_lib.dart';
 
-class AppSelectedStream {
+/* class AppSelectedStream {
   static StreamController<AppModel>? _appSelectedStream;
   static Stream<AppModel>? get appSelectedStream => _appSelectedStream?.stream;
 
@@ -17,3 +17,4 @@ class AppSelectedStream {
     _appSelectedStream = null;
   }
 }
+ */

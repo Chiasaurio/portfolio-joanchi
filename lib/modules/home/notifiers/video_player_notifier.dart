@@ -1,26 +1,19 @@
 part of '../_lib.dart';
 
 class VideoPlayerNotifier extends ChangeNotifier {
-  VideoPlayerController? _videoPlayerController;
+  AppModel? _appSelected;
 
-  init(String asset) {
-    _videoPlayerController = VideoPlayerController.asset(asset)..initialize();
-    notifyListeners();
-  }
+  AppModel? get appSelected => _appSelected;
 
-  changeAsset(String asset) async {
-    await _videoPlayerController!.dispose();
-    _videoPlayerController = null;
-    _videoPlayerController = VideoPlayerController.asset(asset)..initialize();
-
+  changeApp(AppModel app) async {
+    _appSelected = app;
     notifyListeners();
   }
 
   @override
   dispose() {
     super.dispose();
-    _videoPlayerController!.dispose();
-    _videoPlayerController = null;
+    _appSelected = null;
     notifyListeners();
   }
 }
