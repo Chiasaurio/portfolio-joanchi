@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:joanchi_apps_view/modules/colors.dart';
 import 'package:video_player/video_player.dart';
@@ -11,3 +12,4 @@ part 'notifiers/video_player_notifier.dart';
 part 'pages/main_page_home_module.dart';
 part 'widgets/app_information_widget.dart';
 part 'widgets/apps_row_widget.dart';
+part 'widgets/my_info_widget.dart';

@@ -47,23 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
       slivers: [
         SliverList.list(
           children: [
-            _myInfo(),
+            MyInfoWidget(),
             _appSelectedStream(),
           ],
         ),
-      ],
-    );
-  }
-
-  _myInfo() {
-    return Row(
-      children: [
-        Container(
-          height: 150,
-          width: 150,
-          color: getColor.primary,
-          child: Icon(Icons.person),
-        )
       ],
     );
   }
@@ -93,12 +80,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListenableBuilder(
       listenable: AppSelectedController.notifier!,
       builder: (_, child) {
-        return Column(
-          children: [
-            const AppsRowWidget(),
-            const SizedBox(height: 20),
-            _appInfo(AppSelectedController.notifier!.appSelected),
-          ],
+        return FadeInLeft(
+          delay: const Duration(milliseconds: 200),
+          from: 300,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: Column(
+              children: [
+                const AppsRowWidget(),
+                const SizedBox(height: 20),
+                _appInfo(AppSelectedController.notifier!.appSelected),
+              ],
+            ),
+          ),
         );
       },
     );
