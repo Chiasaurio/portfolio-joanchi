@@ -42,17 +42,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  CustomScrollView _view() {
-    return CustomScrollView(
-      slivers: [
-        SliverList.list(
-          children: [
-            MyInfoWidget(),
-            _appSelectedStream(),
+  Widget _view() {
+    return ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: CustomScrollView(
+          slivers: [
+            SliverList.list(
+              children: [
+                const MyInfoWidget(),
+                _appSelectedStream(),
+              ],
+            ),
           ],
-        ),
-      ],
-    );
+        ));
   }
 
   BoxDecoration _backgroundDecoration() {
@@ -103,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         opacity: data == null ? 0.0 : 1.0,
         duration: const Duration(milliseconds: 500),
         child: data == null
-            ? null
+            ? const SizedBox(height: 200)
             : AppInformationWidget(
                 app: data,
               ));

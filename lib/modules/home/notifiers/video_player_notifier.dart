@@ -5,7 +5,7 @@ class VideoPlayerNotifier extends ChangeNotifier {
 
   AppModel? get appSelected => _appSelected;
 
-  changeApp(AppModel app) async {
+  changeApp(AppModel? app) async {
     _appSelected = app;
     notifyListeners();
   }
