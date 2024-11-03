@@ -28,29 +28,29 @@ class _AppInformationWidgetState extends State<AppInformationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    /*  return FutureBuilder(
       future: _initialize(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const SizedBox();
-        }
-        return Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: getColor.background,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: _info(),
-            ),
-            const SizedBox(height: 20),
-            _videPlayer(),
-          ],
-        );
-      },
+        } */
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          width: 550,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: _info(),
+        ),
+        const SizedBox(height: 20),
+        _videPlayer(),
+      ],
     );
+    /*  },
+    ); */
   }
 
   _onPlay() {
@@ -62,14 +62,22 @@ class _AppInformationWidgetState extends State<AppInformationWidget> {
   }
 
   Widget _videPlayer() {
-    return Center(
-      child: VideoPlayerAtom(
-        width: 500,
-        asset: widget.app.videoAsset,
-        controller: _controller!,
-        onPlay: _onPlay,
-        onPause: _onPause,
-      ),
+    return FutureBuilder(
+      future: _initialize(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const SizedBox();
+        }
+        return Center(
+          child: VideoPlayerAtom(
+            width: 500,
+            asset: widget.app.videoAsset,
+            controller: _controller!,
+            onPlay: _onPlay,
+            onPause: _onPause,
+          ),
+        );
+      },
     );
   }
 
@@ -80,7 +88,7 @@ class _AppInformationWidgetState extends State<AppInformationWidget> {
         Text(
           widget.app.nombre,
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.w700,
           ),
         ),

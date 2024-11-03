@@ -28,7 +28,7 @@ class CircleAvatarAppMolecule extends StatelessWidget {
 
   Widget _child() {
     return Container(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(15.0),
       width: 100,
       height: 100,
       color: getColor.background,

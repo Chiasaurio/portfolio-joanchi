@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       slivers: [
         SliverList.list(
           children: [
+            _myInfo(),
             _appSelectedStream(),
           ],
         ),
@@ -54,16 +55,29 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _myInfo() {
+    return Row(
+      children: [
+        Container(
+          height: 150,
+          width: 150,
+          color: getColor.primary,
+          child: Icon(Icons.person),
+        )
+      ],
+    );
+  }
+
   BoxDecoration _backgroundDecoration() {
     return BoxDecoration(
-      image: DecorationImage(
+      /*  image: DecorationImage(
         colorFilter:
             ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
         image: Image.asset(
           'assets/images/fotoparamo.jpg',
         ).image,
         fit: BoxFit.fitWidth,
-      ),
+      ), */
       gradient: LinearGradient(
         colors: [
           getColor.primary,

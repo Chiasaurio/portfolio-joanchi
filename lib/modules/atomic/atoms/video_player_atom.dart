@@ -7,7 +7,7 @@ class VideoPlayerAtom extends StatelessWidget {
   final VideoPlayerController controller;
   final Function() onPlay;
   final Function() onPause;
-  const VideoPlayerAtom({
+  VideoPlayerAtom({
     super.key,
     this.width = 500,
     this.height = 500,
@@ -16,6 +16,8 @@ class VideoPlayerAtom extends StatelessWidget {
     required this.onPlay,
     required this.onPause,
   });
+
+  final ValueNotifier<bool> _isPlaying = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class VideoPlayerAtom extends StatelessWidget {
           height: height,
           child: AspectRatio(
             aspectRatio: controller.value.aspectRatio,
-            child: VideoPlayer(controller),
+            child: _player(),
           ),
         ),
         _playButton(),
@@ -39,14 +41,37 @@ class VideoPlayerAtom extends StatelessWidget {
     );
   }
 
+  Widget _player() {
+    /*  final chewieController = ChewieController(
+      videoPlayerController: controller,
+      autoPlay: true,
+      looping: true,
+    );
+
+    final playerWidget = Chewie(
+      controller: chewieController,
+    );
+
+    return playerWidget; */
+    return VideoPlayer(controller);
+  }
+
   Widget _playButton() {
-    if (controller.value.isPlaying) return _pause();
-    return _play();
+    return ValueListenableBuilder(
+      valueListenable: _isPlaying,
+      builder: (_, value, child) {
+        if (_isPlaying.value) return _pause();
+        return _play();
+      },
+    );
   }
 
   Widget _play() {
     return IconButton(
-      onPressed: () => onPlay(),
+      onPressed: () {
+        _isPlaying.value = true;
+        onPlay();
+      },
       icon: const Icon(Icons.play_arrow),
     );
   }
@@ -54,7 +79,10 @@ class VideoPlayerAtom extends StatelessWidget {
   Widget _pause() {
     return OnHoverHiddenAtom(
       child: IconButton(
-        onPressed: () => onPause(),
+        onPressed: () {
+          _isPlaying.value = false;
+          onPause();
+        },
         icon: const Icon(Icons.pause),
       ),
     );
