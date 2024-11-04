@@ -70,7 +70,6 @@ class _AppInformationWidgetState extends State<AppInformationWidget> {
         }
         return Center(
           child: VideoPlayerAtom(
-            width: 500,
             asset: widget.app.videoAsset,
             controller: _controller!,
             onPlay: _onPlay,

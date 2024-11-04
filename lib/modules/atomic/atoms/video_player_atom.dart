@@ -29,8 +29,8 @@ class VideoPlayerAtom extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         SizedBox(
-          width: width,
-          height: height,
+          // width: width,
+          // height: height,
           child: AspectRatio(
             aspectRatio: controller.value.aspectRatio,
             child: _player(),

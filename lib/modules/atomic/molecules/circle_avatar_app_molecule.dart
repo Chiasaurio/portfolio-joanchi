@@ -1,14 +1,14 @@
 part of '_lib.dart';
 
 class CircleAvatarAppMolecule extends StatelessWidget {
-  final int id;
   final String asset;
+  final bool isSelected;
   final Function() onTap;
   const CircleAvatarAppMolecule({
     super.key,
     required this.asset,
-    required this.id,
     required this.onTap,
+    required this.isSelected,
   });
 
   @override
@@ -31,7 +31,7 @@ class CircleAvatarAppMolecule extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       width: 100,
       height: 100,
-      color: getColor.background,
+      color: isSelected ? Colors.red : getColor.background,
       child: Image.asset(
         asset,
         height: 50,

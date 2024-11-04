@@ -13,7 +13,7 @@ class AppSelectedController {
 
   static selectApp(AppModel app) async {
     notifier!.changeApp(null);
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     notifier!.changeApp(app);
   }
 }

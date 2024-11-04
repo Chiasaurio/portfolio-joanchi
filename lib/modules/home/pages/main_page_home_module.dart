@@ -27,17 +27,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     _paddingSides = MediaQuery.of(context).size.width * 0.15;
 
-    return DecoratedBox(
-      decoration: _backgroundDecoration(),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: _paddingSides,
-            vertical: 10,
-          ),
-          child: _view(),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: _paddingSides,
+          vertical: 10,
         ),
+        child: _view(),
       ),
     );
   }
@@ -49,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
           slivers: [
             SliverList.list(
               children: [
+                const SizedBox(height: 50),
                 const MyInfoWidget(),
+                const SizedBox(height: 50),
                 _appSelectedStream(),
               ],
             ),
@@ -57,43 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-  BoxDecoration _backgroundDecoration() {
-    return BoxDecoration(
-      /*  image: DecorationImage(
-        colorFilter:
-            ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
-        image: Image.asset(
-          'assets/images/fotoparamo.jpg',
-        ).image,
-        fit: BoxFit.fitWidth,
-      ), */
-      gradient: LinearGradient(
-        colors: [
-          getColor.primary,
-          getColor.secondary,
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-    );
-  }
-
   Widget _appSelectedStream() {
     return ListenableBuilder(
       listenable: AppSelectedController.notifier!,
       builder: (_, child) {
-        return FadeInLeft(
-          delay: const Duration(milliseconds: 200),
-          from: 300,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50.0),
-            child: Column(
-              children: [
-                const AppsRowWidget(),
-                const SizedBox(height: 20),
-                _appInfo(AppSelectedController.notifier!.appSelected),
-              ],
-            ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Column(
+            children: [
+              const AppsRowWidget(),
+              const SizedBox(height: 20),
+              _appInfo(AppSelectedController.notifier!.appSelected),
+            ],
           ),
         );
       },
